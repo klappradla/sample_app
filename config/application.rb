@@ -27,5 +27,8 @@ module SampleApp
     
     # line for asset pipeline compability
     config.assets.precompile += %w(*.png, *.jpg, *.jpeg, *.gif)
+    
+    # get rid of some deprecated warning
+    I18n.enforce_available_locales = true
   end
 end
