@@ -52,7 +52,6 @@ describe "UserPages" do
     it { should have_title(user.name) } 
   end
   
-  #edit page
   describe "edit" do
     let(:user) { FactoryGirl.create(:user) }
     before do
@@ -104,7 +103,6 @@ describe "UserPages" do
     end
   end
   
-  #index page
   describe "index" do
     let(:user) { FactoryGirl.create(:user) }
     before(:each) do
@@ -139,7 +137,7 @@ describe "UserPages" do
         end
         
         it { should have_link("delete", href: user_path(User.first)) }
-        it "should be able to delte another user" do
+        it "should be able to delete another user" do
           expect do
             click_link("delete", match: :first)
           end.to change(User, :count).by(-1)
