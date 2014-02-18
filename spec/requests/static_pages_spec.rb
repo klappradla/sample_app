@@ -23,16 +23,32 @@ describe "Static pages" do
       let(:user) { FactoryGirl.create(:user) }
       before do
         FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
-        FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
         sign_in user
         visit root_path
       end
 
-      it "should render the user's feed" do
-        user.feed.each do |item|
-          expect(page).to have_selector("li##{item.id}", text: item.content)
-        end
+      it "should count singular micropost" do
+        expect(page).to have_content(user.microposts.count)
+        expect(page).to have_content("1 micropost")
       end
+
+      describe "with multiple microposts" do
+        before do
+          FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+          visit root_path
+        end
+
+        it "should render the user's feed" do
+          user.feed.each do |item|
+            expect(page).to have_selector("li##{item.id}", text: item.content)
+          end
+        end
+
+        it "should count pluralized" do
+        expect(page).to have_content(user.microposts.count)
+        expect(page).to have_content("2 microposts")
+        end   
+      end   
     end
   end
   
