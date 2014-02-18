@@ -98,6 +98,19 @@ describe "Authentication" do
           it { should have_title("Sign in") }
         end
       end
+
+      describe "in the microposts controller" do
+
+        describe "submitting the create action" do
+          before { post microposts_path }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+
+        describe "submitting the destroy action" do
+          before { delete micropost_path(FactoryGirl.create(:micropost)) }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+      end
     end
     
     describe "for signed-in users" do
@@ -145,12 +158,12 @@ describe "Authentication" do
     describe "as admin user" do
       let(:admin) { FactoryGirl.create(:admin) }
       
-      before { sign_in admin, no_capybara: true }
+      before { sign_in admin }
       
       describe "prevent admin from deleting herself" do
-        before { delete user_path(admin) }
-        specify { expect(response).to redirect_to(users_path) }
-        it { should have_selector("div.alert.alert-error") }
+        it "should not be possible" do
+          expect { delete user_path(admin).to not_change(User, :count).by(-1) }
+        end
       end
     end
   end
