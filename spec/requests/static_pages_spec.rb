@@ -48,7 +48,29 @@ describe "Static pages" do
         expect(page).to have_content(user.microposts.count)
         expect(page).to have_content("2 microposts")
         end   
-      end   
+      end
+
+      describe "pagination" do
+        before do
+          user.microposts.delete_all
+          30.times { FactoryGirl.create(:micropost, user: user) }
+          visit root_path
+        end
+        after { user.feed.delete_all }
+
+        describe "with 30 microposts" do
+          it { should_not have_selector("div.pagination") }
+
+          describe "when adding one more" do
+            before do
+              FactoryGirl.create(:micropost, user: user)
+              visit root_path
+            end
+
+            it { should have_selector("div.pagination") }
+          end
+        end
+      end 
     end
   end
   
