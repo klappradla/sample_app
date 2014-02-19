@@ -52,8 +52,7 @@ describe "Static pages" do
 
       describe "pagination" do
         before do
-          user.microposts.delete_all
-          30.times { FactoryGirl.create(:micropost, user: user) }
+          29.times { FactoryGirl.create(:micropost, user: user) }
           visit root_path
         end
         after { user.feed.delete_all }
@@ -70,7 +69,7 @@ describe "Static pages" do
             it { should have_selector("div.pagination") }
           end
         end
-      end 
+      end
     end
   end
   
