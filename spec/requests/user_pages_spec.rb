@@ -60,6 +60,24 @@ describe "UserPages" do
       it { should have_content(m2.content) }
       it { should have_content(user.microposts.count) }
     end
+
+    describe "delete links for microposts" do
+      let(:another_user) { FactoryGirl.create(:user) }
+      let(:m3) { FactoryGirl.create(:micropost, user: another_user) }
+
+      before do
+        sign_in user
+        visit user_path(user)
+      end
+
+      it { should have_link("delete") }
+
+      describe "on other user's page" do
+        before { visit user_path(another_user) }
+
+        it { should_not have_link("delete") }
+      end
+    end
   end
   
   describe "edit" do
