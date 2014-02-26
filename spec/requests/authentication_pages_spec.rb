@@ -121,6 +121,18 @@ describe "Authentication" do
           specify { expect(response).to redirect_to(signin_path) }
         end
       end
+
+      describe "in the relationships controller" do
+        describe "submitting the create action" do
+          before { post relationships_path }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+
+        describe "submitting the destroy action" do
+          before { delete relationship_path(1) }
+          specify { expect(response).to redirect_to(signin_path) }
+        end
+      end
     end
     
     describe "for signed-in users" do
