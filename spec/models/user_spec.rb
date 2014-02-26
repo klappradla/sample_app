@@ -169,6 +169,32 @@ describe User do
     end
   end
 
+  describe "relationship associations" do
+    let(:other_user) { FactoryGirl.create(:user) }
+    before do
+      @user.save
+      @user.follow!(other_user)
+    end
+
+    it "should destroy relationship on user destroy" do
+      relationships = @user.relationships
+      @user.destroy
+      expect(relationships).to be_empty
+    end
+
+    it "should destroy reverse relationship on user destroy" do
+      reverse_relationship = other_user.reverse_relationships.last
+      @user.destroy
+      expect(other_user.reverse_relationships).not_to include(reverse_relationship)
+    end
+
+    it "should destroy relationship on other user's destroy" do
+      relationship = @user.relationships.last
+      other_user.destroy
+      expect(@user.relationships).not_to include(relationship)
+    end
+  end
+
   describe "following" do
     let(:other_user) { FactoryGirl.create(:user) }
     before do
