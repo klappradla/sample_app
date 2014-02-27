@@ -128,6 +128,16 @@ describe "UserPages" do
         end
       end
     end
+
+    describe "follower/following count" do
+      before do
+        sign_in user
+        visit user_path(user)
+      end
+
+      it { should have_link(user.followed_users.count.to_s + " following", href: following_user_path(user)) }
+      it { should have_link(user.followers.count.to_s + " followers", href: followers_user_path(user)) }
+    end
   end
   
   describe "edit" do
