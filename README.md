@@ -2,7 +2,8 @@
 
 My implementation of the sample application from the [Ruby on Rails Tutorial](http://railstutorial.org/) by Michael Hartl
 
-I implemented the whole application plus some additional exercises and tests. The app is working and all tests are passing.<br>
+I implemented the whole application plus some additional exercises and tests. The app is working and all tests are passing.
+
 Used versions:
 * Ruby 2.0.0
 * Rails 4.0.2
